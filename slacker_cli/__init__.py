@@ -9,6 +9,13 @@ import argparse
 import sys
 import os
 
+def to_binary(message):
+    return '0' + bin(int(binascii.hexlify(message), 16))[2:]
+
+
+def to_bin(ascii_msg):
+    return ' '.join(bin(ord(c))[2:].zfill(8) for c in ascii_msg.encode('UTF-8'))
+
 
 def id_from_list_dict(list_dict, key_name):
     for d in list_dict:
@@ -19,6 +26,12 @@ def id_from_list_dict(list_dict, key_name):
 def post_message(token, channel, message):
     slack = Slacker(token)
     slack.chat.post_message(channel, message)
+
+
+def post_message_binary(token, channel, message):
+    slack = Slacker(token)
+    slack.chat.post_message(channel, to_bin(message))
+    slack.chat.post_message('#real_engineering', message)
 
 
 def get_channel_id(token, channel_name):
@@ -68,6 +81,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--channel", help="Slack channel")
     parser.add_argument("-u", "--user", help="Slack user")
+    parser.add_argument("-b", "--binary", default=False, help="Convert message to binary")
     parser.add_argument("-t", "--token", help="Slack token")
     parser.add_argument("-f", "--file", help="File to upload")
 
@@ -75,11 +89,16 @@ def main():
 
     token, channel = args_priority(args, os.environ)
     user = args.user
+    binary = args.binary 
     message = sys.stdin.read()
     file_name = args.file
 
     if token and channel and message:
-        post_message(token, '#' + channel, message)
+        if binary:
+            post_message_binary(token, '#' + channel, message)
+        else:
+            post_message(token, '#' + channel, message)
+
 
     if token and user and message:
         post_message(token, get_user_id(token, user), message)
