@@ -9,10 +9,6 @@ import argparse
 import sys
 import os
 
-def to_binary(message):
-    return '0' + bin(int(binascii.hexlify(message), 16))[2:]
-
-
 def to_bin(ascii_msg):
     return ' '.join(bin(ord(c))[2:].zfill(8) for c in ascii_msg.encode('UTF-8'))
 
@@ -81,7 +77,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--channel", help="Slack channel")
     parser.add_argument("-u", "--user", help="Slack user")
-    parser.add_argument("-b", "--binary", default=False, help="Convert message to binary")
+    parser.add_argument("-b", "--binary", action="store_true", default=False, help="Convert message to binary")
     parser.add_argument("-t", "--token", help="Slack token")
     parser.add_argument("-f", "--file", help="File to upload")
 
