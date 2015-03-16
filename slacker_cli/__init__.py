@@ -25,6 +25,7 @@ def post_message(token, channel, message):
 
 
 def post_message_binary(token, channel, message):
+    """ post a message to real_engineering and echo it to channel in binary """
     slack = Slacker(token)
     slack.chat.post_message(channel, to_bin(message))
     slack.chat.post_message('#real_engineering', message)

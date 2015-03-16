@@ -21,7 +21,7 @@ Usage
 
 Slack Token can be called from a enviroment variable, called ``SLACK_TOKEN``.
 
-You can set ``SLACK_TOKEN`` in your ``~/.bashrc``
+You can set ``SLACK_TOKEN`` in your ``~/.bashrc``. Or you can use a shell script to call it with the -t option. 
 
 .. code-block:: bash
 
@@ -37,6 +37,13 @@ Send message to user
 .. code-block:: bash
 
     date | slacker -u user_name
+
+Send message to #real_engineering and echo binary to a user or a channel (message is signed as 'bot')
+
+.. code-block:: bash
+
+    date | slacker -u user_name -b
+    date | slacker -c slack_channel -b
 
 Upload file to channel:
 
@@ -58,3 +65,4 @@ Contributors
 - `Marc Abramowitz <https://github.com/msabramo>`_
 - `David Yen <https://github.com/davidyen1124>`_
 - `Valentin Lab <https://github.com/vaab>`_
+- `Suzanne Kiihne <https://github.com/suz>`_
